@@ -1,0 +1,140 @@
+<section>
+
+    <form name="edit">
+
+        <input type="hidden" name="id" value="<?php echo $this->object->getId() ?>">
+
+        <div class="row">
+
+            <h3>EDIT:: Catalogo de productos <strong>ID:: <?php echo $this->object->getId() ?></strong></h3>
+
+            <div class="col-md-6">
+
+                <div class="well well-lg">
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>select</th>
+                            <th>#</th>
+                            <th>quantity</th>
+                            <th>Descripcion</th>
+                            <th>Marca</th>
+                            <th>Tipo</th>
+                            <th>thumbnail</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <?php
+                        $images = [
+                            'https://ld-prestashop.template-help.com/prestashop_14361/img/p/3/6/36-home_default.jpg',
+                            'https://ld-prestashop.template-help.com/prestashop_14361/img/p/1/0/2/102-home_default.jpg',
+                            'https://ld-prestashop.template-help.com/prestashop_14361/img/p/8/4/84-home_default.jpg',
+                            'https://ld-prestashop.template-help.com/prestashop_14361/img/p/1/2/6/126-home_default.jpg',
+                            'https://ld-prestashop.template-help.com/prestashop_14361/img/p/9/0/90-home_default.jpg',
+                            'https://ld-prestashop.template-help.com/prestashop_14361/img/p/7/8/78-home_default.jpg',
+                            'https://ld-prestashop.template-help.com/prestashop_14361/img/p/4/2/42-home_default.jpg',
+                        ];
+
+                        $label = [
+                            'default',
+                            'primary',
+                            'success',
+                            'info',
+                            'warning',
+                            'danger',
+                        ];
+                        ?>
+
+                        <?php foreach ($this->objects as $key => $object): ?>
+
+                            <?php
+                                $exist = false;
+                                $cantidad = null;
+                                foreach ($this->detail as $key => $detail){
+                                    if($detail->getProducto() == $object->getId()){
+                                        $cantidad = $detail->getCantidad();
+                                        $exist = true;
+                                    }
+                                }
+                            ?>
+
+                            <tr class="tr-<?php echo $object->getId(); ?>">
+                                <th scope="row">
+                                    <input
+                                        name="product[id][]"
+                                        type="checkbox"
+                                        value="<?php echo $object->getId(); ?>"
+                                        <?php echo $exist ? 'checked' : '' ?>
+                                    >
+                                </th>
+                                <th scope="row">
+                                    <input name="product[quantity][]"
+                                           class="form-control"
+                                           type="number"
+                                           value="<?php echo $cantidad; ?>">
+                                </th>
+                                <th scope="row"><?php echo $object->getId(); ?></th>
+                                <td><?php echo $object->getDescripcion(); ?></td>
+                                <td><?php echo $object->getMarca(); ?></td>
+                                <td>
+                                    <span class="label label-<?php echo $label[array_rand($label)]; ?>">
+                                        ( <?php echo $object->getTipo(); ?> )
+                                    </span>
+                                </td>
+                                <td>
+                                    <img
+                                        src="<?php echo $images[array_rand($images)]; ?>"
+                                        class="img-thumbnail"
+                                        style="max-height: 100px"
+                                    >
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+                <div class="well well-lg clearfix">
+
+                    <div class="form-group">
+                        <label>Fecha Pedido</label>
+                        <input
+                            type="date" class="form-control"
+                            placeholder="Fecha Pedido"
+                            name="fechaPedido"
+                            required
+                            value="<?php echo substr($this->object->getFechaPedido(), 0, 10) ?>"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label>Usuario</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Usuario"
+                            name="usuario"
+                            required
+                            value="<?php echo $this->object->getUsuario() ?>"
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg pull-right">Enviar</button>
+
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+

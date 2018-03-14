@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>EPCM</title>
+
+    <link rel="shortcut icon" href="http://www.epcmexperts.com/images/favicon.ico" />
+    <link href=https://getbootstrap.com/docs/3.3/dist/css/bootstrap.min.css rel=stylesheet>
+
+    <?php foreach ($this->_js as $key => $js): ?>
+        <script src="<?php echo $js; ?>"></script>
+    <?php endforeach; ?>
+
+    <?php foreach ($this->_css as $key => $css): ?>
+        <link href="<?php echo $css; ?>" rel="stylesheet">
+    <?php endforeach; ?>
+
+    <script type="text/javascript">
+
+        $( document ).ready(function() {
+
+            $('form[name="create"]').submit(function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'html',
+                    url: '<?php echo 'http://'.$_SERVER['SERVER_ADDR'].'/epcm/index.php?url=order/create' ?>',
+                    data: $("form").serialize(),
+                    success: function(data)
+                    {
+                        if(data === '1'){
+                            $("#mensaje").html("<h2>Se guardo con exito</h2>");
+
+                            setTimeout(function(){
+                                $("#mensaje").html("");
+                            }, 2000);
+
+                        }else{
+                            $("#mensaje").html("Hubo un error");
+                        }
+                    }
+                });
+            });
+
+            $('form[name="edit"]').submit(function(e) {
+                e.preventDefault();
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'html',
+                    url: '<?php echo 'http://'.$_SERVER['SERVER_ADDR'].'/epcm/index.php?url=order/edit' ?>',
+                    data: $("form").serialize(),
+                    success: function(data)
+                    {
+                        if(data === '1'){
+                            $("#mensaje").html("<h2>Se edito con exito</h2>");
+
+                            setTimeout(function(){
+                                $("#mensaje").html("");
+                            }, 2000);
+                        }else{
+                            $("#mensaje").html("Hubo un error");
+                        }
+                    }
+                });
+            });
+
+            $("button.delete").click(function(e) {
+                e.preventDefault();
+
+                if (!confirm('Esta seguro?')){
+                    return false;
+                }
+
+                var id = $(this).data("id");
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'html',
+                    url: '<?php echo 'http://'.$_SERVER['SERVER_ADDR'].'/epcm/index.php?url=order/delete' ?>',
+                    data: {
+                        id: id
+                    },
+                    success: function(data)
+                    {
+                        if(data === '1'){
+                            $(".tr-" + id).remove();
+                            $("#mensaje").html("<h2>Se elimino con exito</h2>");
+
+                            setTimeout(function(){
+                                $("#mensaje").html("");
+                            }, 2000);
+
+                        }else{
+                            $("#mensaje").html("Hubo un error");
+                        }
+                    }
+                });
+
+            });
+
+        });
+
+    </script>
+
+</head>
+<body>
+
+<header>
+
+    <div class="row">
+
+        <div class="col-md-10">
+            <img
+                src="http://www.whizet.com/blog/wp-content/uploads/2017/12/Importance-of-ecommerce.jpg"
+                class="img-rounded"
+                style="max-height: 150px; width: 60%"
+            >
+        </div>
+
+        <div class="col-md-2">
+            <ul>
+                <li>
+                    <a href="<?php echo 'http://'.$_SERVER['SERVER_ADDR'].'/epcm/index.php?url=order' ?>">Index</a>
+                </li>
+                <li>
+                    <a href="<?php echo 'http://'.$_SERVER['SERVER_ADDR'].'/epcm/index.php?url=order/create' ?>">Crear order</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</header>
+
+<p id="mensaje" class="bg-success"></p>

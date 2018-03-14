@@ -1,0 +1,71 @@
+<section>
+
+
+    <div class="row">
+
+        <h3>Index - Lista de ordenes</h3>
+
+        <div class="col-md-12">
+
+            <div class="well well-lg">
+
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Fecha Pedido</th>
+                        <th>Usuario</th>
+                        <th>thumbnail</th>
+                        <th>actions</th>
+                        <th>actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <?php
+                    $images = [
+                        'https://ld-prestashop.template-help.com/prestashop_14361/img/p/3/6/36-home_default.jpg',
+                        'https://ld-prestashop.template-help.com/prestashop_14361/img/p/1/0/2/102-home_default.jpg',
+                        'https://ld-prestashop.template-help.com/prestashop_14361/img/p/8/4/84-home_default.jpg',
+                        'https://ld-prestashop.template-help.com/prestashop_14361/img/p/1/2/6/126-home_default.jpg',
+                        'https://ld-prestashop.template-help.com/prestashop_14361/img/p/9/0/90-home_default.jpg',
+                        'https://ld-prestashop.template-help.com/prestashop_14361/img/p/7/8/78-home_default.jpg',
+                        'https://ld-prestashop.template-help.com/prestashop_14361/img/p/4/2/42-home_default.jpg',
+                    ];
+                    ?>
+
+
+                    <?php foreach ($this->objects as $key => $object): ?>
+
+                        <tr class="tr-<?php echo $object->getId(); ?>">
+                            <th scope="row"><?php echo $object->getId(); ?></th>
+                            <td><?php echo $object->getFechaPedido(); ?></td>
+                            <td><?php echo $object->getUsuario(); ?></td>
+                            <td>
+                                <img
+                                    src="<?php echo $images[array_rand($images)]; ?>"
+                                    class="img-thumbnail"
+                                    style="max-height: 100px"
+                                >
+                            </td>
+                            <td>
+                                <a href="<?php echo 'http://'.$_SERVER['SERVER_ADDR'].'/epcm/index.php?url=order/edit&id=' . $object->getId() ?>">
+                                    editar
+                                </a>
+                            </td>
+                            <td>
+                                <button class="delete" data-id="<?php echo $object->getId(); ?>">delete</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+
